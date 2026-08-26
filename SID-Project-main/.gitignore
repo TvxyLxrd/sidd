@@ -37,8 +37,13 @@ coverage/
 
 # Uploads and data
 uploads/
-*.sql
 *.dump
+
+# Дампы базы — да, но НЕ schema.sql: без неё приложение не создаст таблицы
+# на новом сервере. Правило "*.sql" вырезало её и ломало развёртывание.
+*.backup.sql
+dump*.sql
+backup*.sql
 
 # Docker
 .dockerignore
