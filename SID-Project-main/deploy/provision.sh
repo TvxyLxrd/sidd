@@ -26,12 +26,19 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+# Установка не должна ничего спрашивать: диалоги про перезапуск служб и
+# про замену конфигов останавливают выполнение и ждут человека у клавиатуры.
+export DEBIAN_FRONTEND=noninteractive
+export NEEDRESTART_MODE=a
+export NEEDRESTART_SUSPEND=1
+APT_OPTS=(-y -qq -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold)
+
 echo "==> Обновление пакетов"
 apt-get update -qq
-apt-get upgrade -y -qq
+apt-get upgrade "${APT_OPTS[@]}"
 
 echo "==> Базовые утилиты"
-apt-get install -y -qq curl ca-certificates gnupg ufw rsync
+apt-get install "${APT_OPTS[@]}" curl ca-certificates gnupg ufw rsync
 
 echo "==> Node.js ${NODE_MAJOR}"
 if ! command -v node >/dev/null 2>&1; then
@@ -41,12 +48,12 @@ if ! command -v node >/dev/null 2>&1; then
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" \
     > /etc/apt/sources.list.d/nodesource.list
   apt-get update -qq
-  apt-get install -y -qq nodejs
+  apt-get install "${APT_OPTS[@]}" nodejs
 fi
 echo "    node $(node -v), npm $(npm -v)"
 
 echo "==> PostgreSQL"
-apt-get install -y -qq postgresql postgresql-contrib
+apt-get install "${APT_OPTS[@]}" postgresql postgresql-contrib
 systemctl enable --now postgresql
 
 # Пароль базы генерируется здесь и попадает только в .env приложения
@@ -88,11 +95,12 @@ npm install -g pm2 --silent
 pm2 startup systemd -u "${APP_USER}" --hp "/home/${APP_USER}" >/dev/null
 
 echo "==> nginx"
-apt-get install -y -qq nginx
+apt-get install "${APT_OPTS[@]}" nginx
 
 cat > "/etc/nginx/sites-available/sid" <<NGINX
 server {
-    listen 80;
+    # default_server — чтобы сайт открывался и по IP, пока домена нет
+    listen 80 default_server;
     server_name ${DOMAIN} www.${DOMAIN};
 
     client_max_body_size 2m;
@@ -121,7 +129,7 @@ ufw allow 'Nginx Full' >/dev/null
 ufw --force enable >/dev/null
 
 echo "==> Сертификат Let's Encrypt"
-apt-get install -y -qq certbot python3-certbot-nginx
+apt-get install "${APT_OPTS[@]}" certbot python3-certbot-nginx
 echo "    Запустите после того, как домен начнёт указывать на этот сервер:"
 echo "    certbot --nginx -d ${DOMAIN} -d www.${DOMAIN}"
 
