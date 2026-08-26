@@ -18,7 +18,15 @@ HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${HERE}/../.." && pwd)"
 
 if [[ $EUID -ne 0 ]]; then
-  echo "Запускать нужно от root"
+  cat <<'ROOT'
+Нужны права root: скрипт ставит пакеты и правит системные настройки.
+
+Запустите так:
+  sudo bash "$0" "$@"
+
+Или сначала перейдите под root:
+  sudo -i
+ROOT
   exit 1
 fi
 
@@ -38,14 +46,22 @@ source /root/.sid-provision.env
 # ------------------------------------------------------------ 2. файлы
 say "Размещение файлов приложения"
 mkdir -p "${APP_DIR}"
-# Копируем содержимое репозитория, кроме служебных каталогов
-rsync -a --delete \
-  --exclude '.git' \
-  --exclude 'node_modules' \
-  --exclude '.env' \
-  --exclude 'logs' \
-  --exclude 'SID-Project-main/frontend' \
-  "${REPO_ROOT}/" "${APP_DIR}/"
+# Копируем содержимое репозитория, кроме служебных каталогов.
+# rsync ставится на шаге настройки, но подстрахуемся на случай сбоя.
+if command -v rsync >/dev/null 2>&1; then
+  rsync -a --delete \
+    --exclude '.git' \
+    --exclude 'node_modules' \
+    --exclude '.env' \
+    --exclude 'logs' \
+    --exclude 'SID-Project-main/frontend' \
+    "${REPO_ROOT}/" "${APP_DIR}/"
+else
+  apt-get install -y -qq rsync && rsync -a --delete \
+    --exclude '.git' --exclude 'node_modules' --exclude '.env' \
+    --exclude 'logs' --exclude 'SID-Project-main/frontend' \
+    "${REPO_ROOT}/" "${APP_DIR}/"
+fi
 chown -R "${APP_USER}:${APP_USER}" "${APP_DIR}"
 
 BACKEND="${APP_DIR}/SID-Project-main/backend"
