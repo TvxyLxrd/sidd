@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мои заявки — SID Workspace</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="js/app.js" defer></script>
+  <script src="js/pages.js" defer></script>
+</head>
+<body data-page="requests">
+  <div class="app">
+    <header class="app-header">
+      <div class="container app-header-inner">
+        <a class="brand" href="dashboard.html"><span class="brand-mark"><i class="fas fa-bolt"></i></span><span>SID Workspace</span></a>
+        <nav class="app-nav">
+          <a href="dashboard.html"><i class="fas fa-grid-2"></i>Обзор</a>
+          <a class="active" href="requests.html"><i class="fas fa-list-check"></i>Заявки</a>
+          <a href="new-request.html"><i class="fas fa-plus"></i>Создать</a>
+          <a href="profile.html"><i class="fas fa-user"></i>Профиль</a>
+          <a href="admin-dashboard.html" data-admin-only hidden><i class="fas fa-shield-halved"></i>Админка</a>
+        </nav>
+        <div class="header-actions">
+          <a class="user-chip" href="profile.html" aria-label="Открыть профиль"><span class="user-avatar" data-user-initials>SI</span><div><strong data-user-name>Пользователь</strong><span data-user-role>Аккаунт</span></div></a>
+          <button class="btn btn-ghost" type="button" data-logout aria-label="Выйти"><i class="fas fa-arrow-right-from-bracket"></i></button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container page-main">
+      <section class="page-heading">
+        <div>
+          <span class="eyebrow">Рабочая очередь</span>
+          <h1>Мои заявки</h1>
+          <p>Ищите обращения, отслеживайте этапы и открывайте подробную карточку задачи.</p>
+        </div>
+        <a class="btn btn-primary btn-lg" href="new-request.html"><i class="fas fa-plus"></i>Новая заявка</a>
+      </section>
+
+      <section class="card">
+        <div class="toolbar">
+          <span class="badge badge-neutral" id="requestCount">0 заявок</span>
+          <div class="toolbar-group">
+            <input class="form-control search-control" id="searchInput" type="search" placeholder="Поиск по названию, номеру, категории">
+            <select class="form-control" id="statusFilter" aria-label="Фильтр статуса">
+              <option value="all">Все статусы</option>
+              <option value="pending">Ожидают</option>
+              <option value="in_progress">В работе</option>
+              <option value="on_hold">На паузе</option>
+              <option value="completed">Завершены</option>
+              <option value="rejected">Отклонены</option>
+            </select>
+          </div>
+        </div>
+        <div id="requestsList"></div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

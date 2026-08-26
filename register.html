@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация — SID Workspace</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="js/app.js" defer></script>
+  <script src="js/pages.js" defer></script>
+</head>
+<body data-page="register">
+  <main class="auth-layout">
+    <aside class="auth-aside">
+      <a class="brand" href="index.html">
+        <span class="brand-mark"><i class="fas fa-bolt"></i></span>
+        <span>SID Workspace</span>
+      </a>
+      <div class="auth-quote">
+        <h2 class="gradient-text">Начните с ясной системы.</h2>
+        <p>Создайте аккаунт, отправляйте обращения и следите за результатом без лишних уточнений.</p>
+      </div>
+      <div class="auth-aside-footer">Регистрация сразу создает защищенную сессию</div>
+    </aside>
+
+    <section class="auth-main">
+      <div class="auth-card">
+        <span class="eyebrow">Новый аккаунт</span>
+        <h1>Регистрация</h1>
+        <p>Заполните данные, чтобы открыть рабочее пространство.</p>
+
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="fullName">Имя и фамилия</label>
+            <input class="form-control" id="fullName" type="text" autocomplete="name" placeholder="Анна Смирнова" minlength="2" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input class="form-control" id="email" type="email" autocomplete="email" placeholder="anna@company.ru" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Телефон <span class="muted">необязательно</span></label>
+            <input class="form-control" id="phone" type="tel" autocomplete="tel" placeholder="+7 999 123-45-67">
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="password">Пароль</label>
+              <input class="form-control" id="password" type="password" autocomplete="new-password" minlength="6" required>
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Повторите пароль</label>
+              <input class="form-control" id="confirmPassword" type="password" autocomplete="new-password" minlength="6" required>
+            </div>
+          </div>
+          <label class="checkbox-row" style="margin-bottom:18px">
+            <input type="checkbox" required>
+            <span>Я согласен с условиями использования и обработкой данных.</span>
+          </label>
+          <button class="btn btn-primary btn-block btn-lg" type="submit">
+            Создать аккаунт <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+        <div class="auth-switch">Уже зарегистрированы? <a href="login.html">Войти</a></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Новая заявка — SID Workspace</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="js/app.js" defer></script>
+  <script src="js/pages.js" defer></script>
+</head>
+<body data-page="new-request">
+  <div class="app">
+    <header class="app-header">
+      <div class="container app-header-inner">
+        <a class="brand" href="dashboard.html"><span class="brand-mark"><i class="fas fa-bolt"></i></span><span>SID Workspace</span></a>
+        <nav class="app-nav">
+          <a href="dashboard.html"><i class="fas fa-grid-2"></i>Обзор</a>
+          <a href="requests.html"><i class="fas fa-list-check"></i>Заявки</a>
+          <a class="active" href="new-request.html"><i class="fas fa-plus"></i>Создать</a>
+          <a href="profile.html"><i class="fas fa-user"></i>Профиль</a>
+          <a href="admin-dashboard.html" data-admin-only hidden><i class="fas fa-shield-halved"></i>Админка</a>
+        </nav>
+        <div class="header-actions">
+          <a class="user-chip" href="profile.html" aria-label="Открыть профиль"><span class="user-avatar" data-user-initials>SI</span><div><strong data-user-name>Пользователь</strong><span data-user-role>Аккаунт</span></div></a>
+          <button class="btn btn-ghost" type="button" data-logout aria-label="Выйти"><i class="fas fa-arrow-right-from-bracket"></i></button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container page-main">
+      <section class="page-heading form-card">
+        <div>
+          <span class="eyebrow">Новое обращение</span>
+          <h1>Расскажите, что нужно сделать</h1>
+          <p>Чем точнее описание и приоритет, тем быстрее команда сможет начать работу.</p>
+        </div>
+      </section>
+
+      <section class="card form-card">
+        <form id="requestForm">
+          <div class="form-grid">
+            <div class="form-group span-2">
+              <label for="title">Короткое название</label>
+              <input class="form-control" id="title" type="text" minlength="3" maxlength="255" placeholder="Например: настроить доступ к отчетам" required>
+            </div>
+            <div class="form-group span-2">
+              <label for="description">Подробное описание</label>
+              <textarea class="form-control" id="description" minlength="10" maxlength="5000" placeholder="Опишите контекст, ожидаемый результат и важные детали..." required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="categoryId">Категория</label>
+              <select class="form-control" id="categoryId" required>
+                <option value="">Загружаем категории...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Приоритет</label>
+              <div class="priority-options">
+                <label class="priority-option"><input type="radio" name="priority" value="low"><span>Низкий</span></label>
+                <label class="priority-option"><input type="radio" name="priority" value="medium" checked><span>Средний</span></label>
+                <label class="priority-option"><input type="radio" name="priority" value="high"><span>Высокий</span></label>
+                <label class="priority-option"><input type="radio" name="priority" value="urgent"><span>Срочный</span></label>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+            <a class="btn btn-secondary" href="requests.html">Отмена</a>
+            <button class="btn btn-primary btn-lg" type="submit"><i class="fas fa-paper-plane"></i>Отправить заявку</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

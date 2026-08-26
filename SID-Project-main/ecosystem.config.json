@@ -1,0 +1,52 @@
+{
+  "apps": [
+    {
+      "name": "sid-api",
+      "script": "./src/server.js",
+      "cwd": "./backend",
+      "instances": "max",
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "error_file": "./logs/pm2-error.log",
+      "out_file": "./logs/pm2-out.log",
+      "log_date_format": "YYYY-MM-DD HH:mm:ss Z",
+      "merge_logs": true,
+      "autorestart": true,
+      "watch": false,
+      "max_memory_restart": "500M",
+      "min_uptime": "10s",
+      "max_restarts": 10,
+      "restart_delay": 4000,
+      "kill_timeout": 5000,
+      "listen_timeout": 10000,
+      "shutdown_with_message": true,
+      "wait_ready": true,
+      "env_production": {
+        "NODE_ENV": "production",
+        "PORT": 3000
+      }
+    },
+    {
+      "name": "sid-admin",
+      "script": "./src/admin-server.js",
+      "cwd": "./backend",
+      "instances": 1,
+      "exec_mode": "fork",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "error_file": "./logs/admin-error.log",
+      "out_file": "./logs/admin-out.log",
+      "log_date_format": "YYYY-MM-DD HH:mm:ss Z",
+      "autorestart": true,
+      "watch": false,
+      "max_memory_restart": "200M",
+      "env_production": {
+        "NODE_ENV": "production",
+        "ADMIN_PANEL_PORT": 3001
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход — SID Workspace</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="js/app.js" defer></script>
+  <script src="js/pages.js" defer></script>
+</head>
+<body data-page="login">
+  <main class="auth-layout">
+    <aside class="auth-aside">
+      <a class="brand" href="index.html">
+        <span class="brand-mark"><i class="fas fa-bolt"></i></span>
+        <span>SID Workspace</span>
+      </a>
+      <div class="auth-quote">
+        <h2 class="gradient-text">С возвращением в рабочий ритм.</h2>
+        <p>Войдите, чтобы увидеть актуальные заявки, статусы и изменения вашей команды.</p>
+      </div>
+    </aside>
+
+    <section class="auth-main">
+      <div class="auth-card">
+        <span class="eyebrow">Авторизация</span>
+        <h1>Войти в SID</h1>
+        <p>Используйте рабочую почту и пароль.</p>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input class="form-control" id="email" type="email" autocomplete="email" placeholder="name@company.ru" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Пароль</label>
+            <input class="form-control" id="password" type="password" autocomplete="current-password" placeholder="Не менее 6 символов" required>
+          </div>
+          <button class="btn btn-primary btn-block btn-lg" type="submit">
+            Войти <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <div class="auth-switch">Еще нет аккаунта? <a href="register.html">Зарегистрироваться</a></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

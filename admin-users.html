@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Пользователи — SID Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="js/app.js" defer></script>
+  <script src="js/pages.js" defer></script>
+</head>
+<body data-page="admin-users">
+  <div class="app">
+    <header class="app-header">
+      <div class="container app-header-inner">
+        <a class="brand" href="admin-dashboard.html"><span class="brand-mark"><i class="fas fa-shield-halved"></i></span><span>SID Admin</span></a>
+        <nav class="app-nav">
+          <a href="admin-dashboard.html"><i class="fas fa-chart-pie"></i>Обзор</a>
+          <a href="admin-requests.html"><i class="fas fa-list-check"></i>Заявки</a>
+          <a class="active" href="admin-users.html"><i class="fas fa-users"></i>Пользователи</a>
+          <a href="admin-services.html"><i class="fas fa-shapes"></i>Категории</a>
+          <a href="dashboard.html"><i class="fas fa-arrow-up-right-from-square"></i>Кабинет</a>
+        </nav>
+        <div class="header-actions">
+          <a class="user-chip" href="profile.html" aria-label="Открыть профиль"><span class="user-avatar" data-user-initials>AD</span><div><strong data-user-name>Администратор</strong><span data-user-role>Администратор</span></div></a>
+          <button class="btn btn-ghost" type="button" data-logout aria-label="Выйти"><i class="fas fa-arrow-right-from-bracket"></i></button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container page-main">
+      <section class="page-heading">
+        <div><span class="eyebrow">Доступы</span><h1>Пользователи</h1><p>Просматривайте аккаунты и при необходимости ограничивайте доступ к системе.</p></div>
+      </section>
+      <section class="card">
+        <div class="toolbar">
+          <div><h2>Команда SID</h2></div>
+          <input class="form-control search-control" id="searchInput" type="search" placeholder="Поиск по имени или email">
+        </div>
+        <div id="adminUsersList"></div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

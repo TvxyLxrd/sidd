@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SID Workspace — единое пространство для заявок, задач и командной работы.">
+  <title>SID Workspace — управление заявками без хаоса</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="js/app.js" defer></script>
+  <script src="js/pages.js" defer></script>
+</head>
+<body data-page="landing">
+  <header class="site-header">
+    <div class="container site-header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark"><i class="fas fa-bolt"></i></span>
+        <span>SID Workspace</span>
+      </a>
+      <nav class="site-nav" aria-label="Главная навигация">
+        <a href="#features">Возможности</a>
+        <a href="#workflow">Как работает</a>
+        <a class="btn btn-secondary" href="login.html">Войти</a>
+        <a class="btn btn-primary" href="register.html">Начать работу</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container landing-hero">
+      <div>
+        <span class="eyebrow">Работа становится прозрачнее</span>
+        <h1 class="gradient-text">Заявки, которые движутся вперед.</h1>
+        <p>SID объединяет обращения, приоритеты и статусы в одном спокойном рабочем пространстве. Команда видит главное, а вы всегда понимаете, что происходит.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="register.html"><i class="fas fa-arrow-right"></i>Создать аккаунт</a>
+        </div>
+      </div>
+
+      <div class="product-preview" aria-label="Превью кабинета">
+        <div class="preview-top">
+          <div class="window-dots"><span></span><span></span><span></span></div>
+          <span class="badge badge-success"><i class="fas fa-circle"></i>Команда онлайн</span>
+        </div>
+        <div class="preview-grid">
+          <div class="preview-stat"><span>Всего заявок</span><strong>48</strong></div>
+          <div class="preview-stat"><span>В работе</span><strong>12</strong></div>
+          <div class="preview-stat"><span>Выполнено</span><strong>31</strong></div>
+        </div>
+        <div class="preview-list">
+          <div class="preview-row">
+            <span class="preview-icon"><i class="fas fa-code"></i></span>
+            <div><strong>Обновить форму заявки</strong><small>Разработка · сегодня</small></div>
+            <span class="badge badge-info">В работе</span>
+          </div>
+          <div class="preview-row">
+            <span class="preview-icon"><i class="fas fa-chart-line"></i></span>
+            <div><strong>Подготовить отчет</strong><small>Аналитика · вчера</small></div>
+            <span class="badge badge-warning">Ожидает</span>
+          </div>
+          <div class="preview-row">
+            <span class="preview-icon"><i class="fas fa-headset"></i></span>
+            <div><strong>Восстановить доступ</strong><small>Поддержка · 7 июня</small></div>
+            <span class="badge badge-success">Готово</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Меньше шума</span>
+          <h2>Все нужное для понятной работы с запросами</h2>
+          <p>Без перегруженных досок и бесконечных таблиц. Только данные, которые помогают быстрее принимать решения.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fas fa-route"></i></div>
+            <h3>Прозрачный путь</h3>
+            <p>Каждая заявка проходит понятные этапы: ожидание, работа и завершение. Статус виден всем участникам.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fas fa-gauge-high"></i></div>
+            <h3>Умные приоритеты</h3>
+            <p>Срочные задачи не теряются в общей очереди, а команда быстрее фокусируется на действительно важном.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+            <h3>Надежный доступ</h3>
+            <p>JWT-сессии, роли пользователей и защищенные маршруты связывают интерфейс с настоящим backend API.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
+      <div class="container">
+        <div class="cta-panel">
+          <div>
+            <span class="eyebrow">Готово к работе</span>
+            <h2>Создайте первую заявку за пару минут.</h2>
+          </div>
+          <a class="btn btn-primary btn-lg" href="register.html">Попробовать SID <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© 2026 SID Workspace</span>
+    </div>
+  </footer>
+</body>
+</html>

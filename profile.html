@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Профиль — SID Workspace</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="js/app.js" defer></script>
+  <script src="js/pages.js" defer></script>
+</head>
+<body data-page="profile">
+  <div class="app">
+    <header class="app-header">
+      <div class="container app-header-inner">
+        <a class="brand" href="dashboard.html"><span class="brand-mark"><i class="fas fa-bolt"></i></span><span>SID Workspace</span></a>
+        <nav class="app-nav">
+          <a href="dashboard.html"><i class="fas fa-grid-2"></i>Обзор</a>
+          <a href="requests.html"><i class="fas fa-list-check"></i>Заявки</a>
+          <a href="new-request.html"><i class="fas fa-plus"></i>Создать</a>
+          <a class="active" href="profile.html"><i class="fas fa-user"></i>Профиль</a>
+          <a href="admin-dashboard.html" data-admin-only hidden><i class="fas fa-shield-halved"></i>Админка</a>
+        </nav>
+        <div class="header-actions">
+          <a class="user-chip" href="profile.html" aria-label="Открыть профиль"><span class="user-avatar" data-user-initials>SI</span><div><strong data-user-name>Пользователь</strong><span data-user-role>Аккаунт</span></div></a>
+          <button class="btn btn-ghost" type="button" data-logout aria-label="Выйти"><i class="fas fa-arrow-right-from-bracket"></i></button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container page-main">
+      <section class="page-heading">
+        <div>
+          <span class="eyebrow">Аккаунт</span>
+          <h1>Профиль и безопасность</h1>
+          <p>Обновляйте контактные данные и управляйте паролем.</p>
+        </div>
+      </section>
+
+      <div class="profile-grid">
+        <aside class="card profile-summary">
+          <div class="profile-avatar" id="profileInitials">SI</div>
+          <h2 id="profileName">Пользователь</h2>
+          <p id="profileEmail">—</p>
+          <p id="profileCreated">В системе с —</p>
+          <div class="profile-stat-row">
+            <div class="profile-stat"><strong id="totalRequests">0</strong><span>Всего</span></div>
+            <div class="profile-stat"><strong id="completedRequests">0</strong><span>Готово</span></div>
+            <div class="profile-stat"><strong id="pendingRequests">0</strong><span>Ожидают</span></div>
+          </div>
+        </aside>
+
+        <div>
+          <section class="card">
+            <div class="card-header"><div><h2>Личные данные</h2><p class="muted text-small">Email нельзя изменить в текущей версии API</p></div></div>
+            <form id="profileForm">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="fullName">Имя и фамилия</label>
+                  <input class="form-control" id="fullName" type="text" minlength="2" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input class="form-control" id="email" type="email" disabled>
+                </div>
+                <div class="form-group span-2">
+                  <label for="phone">Телефон</label>
+                  <input class="form-control" id="phone" type="tel" placeholder="+7 999 123-45-67">
+                </div>
+              </div>
+              <button class="btn btn-primary" type="submit"><i class="fas fa-check"></i>Сохранить изменения</button>
+            </form>
+          </section>
+
+          <section class="card">
+            <div class="card-header"><div><h2>Смена пароля</h2><p class="muted text-small">После изменения потребуется войти заново</p></div></div>
+            <form id="passwordForm">
+              <div class="form-group">
+                <label for="currentPassword">Текущий пароль</label>
+                <input class="form-control" id="currentPassword" type="password" autocomplete="current-password" required>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="newPassword">Новый пароль</label>
+                  <input class="form-control" id="newPassword" type="password" autocomplete="new-password" minlength="6" required>
+                </div>
+                <div class="form-group">
+                  <label for="confirmNewPassword">Повторите пароль</label>
+                  <input class="form-control" id="confirmNewPassword" type="password" autocomplete="new-password" minlength="6" required>
+                </div>
+              </div>
+              <button class="btn btn-secondary" type="submit"><i class="fas fa-key"></i>Обновить пароль</button>
+            </form>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
