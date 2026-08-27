@@ -66,11 +66,15 @@ chown -R "${APP_USER}:${APP_USER}" "${APP_DIR}"
 
 BACKEND="${APP_DIR}/SID-Project-main/backend"
 
+# Запуск команды от имени пользователя приложения. Используем su, а не sudo:
+# на образе Beget sudoers не разрешает root запускать команды от чужого имени.
+as_app() { su -s /bin/bash - "${APP_USER}" -c "cd '${BACKEND}' && $*"; }
+
 # --------------------------------------------------------- 3. зависимости
 say "Установка зависимостей"
 cd "${BACKEND}"
-sudo -u "${APP_USER}" npm ci --omit=dev --no-audit --no-fund 2>/dev/null \
-  || sudo -u "${APP_USER}" npm install --omit=dev --no-audit --no-fund
+as_app "npm ci --omit=dev --no-audit --no-fund" 2>/dev/null \
+  || as_app "npm install --omit=dev --no-audit --no-fund"
 
 # ------------------------------------------------------------ 4. окружение
 if [[ -f "${BACKEND}/.env" ]]; then
@@ -116,23 +120,65 @@ fi
 
 # ---------------------------------------------------------------- 5. база
 say "Схема и справочники"
-sudo -u "${APP_USER}" npm run migrate --silent
-sudo -u "${APP_USER}" npm run seed --silent
+as_app "npm run migrate --silent"
+as_app "npm run seed --silent"
 
 # --------------------------------------------------------------- 6. запуск
+# systemd вместо pm2: на образе Beget sudo не разрешает запуск от чужого
+# пользователя, а pm2 не виден в PATH у sid. Служба решает обе проблемы
+# и переживает перезагрузку сервера без отдельной настройки автозапуска.
 say "Запуск приложения"
-if sudo -u "${APP_USER}" pm2 describe sid >/dev/null 2>&1; then
-  sudo -u "${APP_USER}" pm2 restart sid --update-env
+
+cat > /etc/systemd/system/sid.service <<UNIT
+[Unit]
+Description=SID marketplace
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=${APP_USER}
+WorkingDirectory=${BACKEND}
+ExecStart=$(command -v node) src/server.js
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+
+systemctl daemon-reload
+systemctl enable sid >/dev/null 2>&1
+systemctl restart sid
+sleep 5
+
+if systemctl is-active --quiet sid; then
+  echo "    служба запущена"
 else
-  sudo -u "${APP_USER}" pm2 start "${BACKEND}/src/server.js" --name sid --cwd "${BACKEND}"
+  echo "    служба не поднялась, последние строки журнала:"
+  journalctl -u sid -n 20 --no-pager
 fi
-sudo -u "${APP_USER}" pm2 save >/dev/null
-sleep 4
 
 # --------------------------------------------------------- 7. сертификат
 if [[ -n "${DOMAIN}" ]]; then
   say "Сертификат для ${DOMAIN}"
-  certbot --nginx -d "${DOMAIN}" -d "www.${DOMAIN}" \
+
+  # В запрос попадают только те имена, которые уже указывают на этот сервер.
+  # Если www ведёт на парковку регистратора, проверка Let's Encrypt провалится
+  # и сертификат не выпустится вообще — включая основной домен.
+  SERVER_IP="$(curl -fsS --max-time 10 https://api.ipify.org 2>/dev/null || hostname -I | awk '{print $1}')"
+  CERT_DOMAINS=(-d "${DOMAIN}")
+
+  WWW_IP="$(getent ahostsv4 "www.${DOMAIN}" 2>/dev/null | awk 'NR==1{print $1}')"
+  if [[ "${WWW_IP}" == "${SERVER_IP}" ]]; then
+    CERT_DOMAINS+=(-d "www.${DOMAIN}")
+  else
+    echo "    www.${DOMAIN} указывает на ${WWW_IP:-неизвестно}, а сервер — ${SERVER_IP}"
+    echo "    выпускаю сертификат только для ${DOMAIN}"
+  fi
+
+  certbot --nginx "${CERT_DOMAINS[@]}" \
     --non-interactive --agree-tos --register-unsafely-without-email --redirect \
     || echo "    не удалось — проверьте, что домен указывает на этот сервер"
 fi
@@ -140,7 +186,7 @@ fi
 # ------------------------------------------------------- 8. администратор
 say "Создание администратора"
 ADMIN_EMAIL_VALUE="${ADMIN_EMAIL:-admin@${DOMAIN:-localhost}}"
-sudo -u "${APP_USER}" npm run create-admin -- --email "${ADMIN_EMAIL_VALUE}" || true
+as_app "npm run create-admin -- --email ${ADMIN_EMAIL_VALUE}" || true
 
 # ------------------------------------------------------------ 9. проверка
 say "Проверка"
@@ -153,8 +199,8 @@ cat <<DONE
 Публикация завершена.
 
   Приложение : ${BASE:-http://$(hostname -I | awk '{print $1}')}
-  Состояние  : sudo -u ${APP_USER} pm2 status
-  Журнал     : sudo -u ${APP_USER} pm2 logs sid
+  Состояние  : systemctl status sid
+  Журнал     : journalctl -u sid -f
 
 Пароль администратора показан выше — сохраните его сейчас.
 =====================================================================
