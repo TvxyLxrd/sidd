@@ -40,8 +40,16 @@ else
   bash "${HERE}/provision.sh" "${DOMAIN:-localhost}"
 fi
 
+# В файле настройки лежит DOMAIN с первого запуска. Если домен передан
+# аргументом, он важнее: иначе повторный запуск молча возьмёт старое значение
+# и выпустит сертификат не на то имя.
+DOMAIN_ARG="${DOMAIN}"
+
 # shellcheck disable=SC1091
 source /root/.sid-provision.env
+
+DOMAIN="${DOMAIN_ARG:-${DOMAIN:-}}"
+[[ "${DOMAIN}" == "localhost" ]] && DOMAIN=""
 
 # ------------------------------------------------------------ 2. файлы
 say "Размещение файлов приложения"
